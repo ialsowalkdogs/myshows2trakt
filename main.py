@@ -20,12 +20,12 @@ def process_file(input_file, output_file):
     
     # Read the watched episodes from Excel file
     # Watched episodes are stored on second sheet
-    df = pd.read_excel(input_file, sheet_name=1)
+    df = pd.read_excel(input_file, sheet_name=1,nrows=5) # TODO remove debug row limit
     logging.info(f"Loaded {len(df)} rows from Excel file")
 
     # Create new dataframe with required columns
     selected_columns = ['Сериал', 'Дата просмотра', 'Оценка']
-    result_df = pd.DataFrame(columns=[col for col in selected_columns if col in df.columns]) # TODO remove debug row limit
+    result_df = pd.DataFrame(columns=[col for col in selected_columns if col in df.columns])
 
     for index, row in df.iterrows():
         logging.info(f"Processing row {index + 1}/{len(df)}")
