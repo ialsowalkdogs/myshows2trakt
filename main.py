@@ -22,9 +22,27 @@ def process_file(input_file, output_file):
     # Watched episodes are stored on second sheet
     df = pd.read_excel(input_file, sheet_name=1)
     logging.info(f"Loaded {len(df)} rows from Excel file")
-    
+
+    # Create new dataframe with required columns
+    selected_columns = ['Сериал', 'Дата просмотра', 'Оценка']
+    result_df = pd.DataFrame(columns=[col for col in selected_columns if col in df.columns]) # TODO remove debug row limit
+
+    for index, row in df.iterrows():
+        logging.info(f"Processing row {index + 1}/{len(df)}")
+        logging.debug(f"Row data: {row.to_dict()}")
+        
+        id = f"{row['Сериал']} {row['Сезон']} {int(row['Эпизод'])}"
+        watched_at = row['Дата просмотра']
+        rating = row['Оценка']
+        
+        # Add to result dataframe
+        result_df.loc[index] = [id, watched_at, rating]
+        logging.debug(f"Processed values: id={id}, watched_at={watched_at}, rating={rating}")
+        
+        # Add delay to respect API rate limits
+        time.sleep(0.25)
     # Save to CSV
-    df.to_csv(output_file, index=False)
+    result_df.to_csv(output_file, index=False)
     logging.info(f"Successfully saved {len(df)} rows to {output_file}")
 
 if __name__ == "__main__":
