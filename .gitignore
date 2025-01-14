@@ -1,0 +1,7 @@
+# Project testing files
+tv_history.xlsx
+tv_conversion.log
+trakt_history.csv
+
+# Python
+__pycache__
