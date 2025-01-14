@@ -14,6 +14,13 @@ logging.basicConfig(
     ]
 )
 
+# Convert date to ISO format with timezone
+def convert_date(date_str):
+    if pd.isna(date_str):
+        return None
+    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+    return date_obj.strftime('%Y-%m-%dT00:00:00.000Z')
+
 def process_file(input_file, output_file):
     """Process the XLSX file and create the CSV output"""
     logging.info(f"Starting processing of {input_file}")
@@ -32,7 +39,7 @@ def process_file(input_file, output_file):
         logging.debug(f"Row data: {row.to_dict()}")
         
         id = f"{row['Сериал']} {row['Сезон']} {int(row['Эпизод'])}"
-        watched_at = row['Дата просмотра']
+        watched_at = convert_date(row['Дата просмотра'])
         rating = row['Оценка']
         
         # Add to result dataframe
