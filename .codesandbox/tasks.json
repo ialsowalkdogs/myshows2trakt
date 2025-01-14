@@ -17,7 +17,7 @@
       "command": "pytest tests/ -v",
       "runAtStart": true,
       "restartOn": {
-        "files": ["tests/test.py"]
+        "files": ["tests/test_*.py"]
       }
     },
     "install-dependencies": {
