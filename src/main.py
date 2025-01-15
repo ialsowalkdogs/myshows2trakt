@@ -14,6 +14,14 @@ logging.basicConfig(
     ]
 )
 
+# Convert rating from 1-5 scale to 1-10 scale, rounded up
+def convert_rating(rating):
+    if pd.isna(rating):
+        return None
+    converted = int((rating * 2))
+    logging.debug(f"Converting rating: {rating} -> {converted}")
+    return converted
+
 # Convert date to ISO format with timezone
 def convert_date(date_str):
     if pd.isna(date_str):
